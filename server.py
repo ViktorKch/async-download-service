@@ -27,7 +27,7 @@ async def archivate(path, delay, request):
 
     cmd = f'zip -r - {path_to_photos}'
 
-    proc = await asyncio.create_subprocess_shell(
+    proc = await asyncio.create_subprocess_exec(
         cmd,
         stdout=asyncio.subprocess.PIPE,
         stderr=asyncio.subprocess.PIPE)
@@ -61,6 +61,8 @@ async def archivate(path, delay, request):
         raise
     finally:
         response.force_close()
+        if proc.returncode is None:
+            proc.kill()
 
     return response
 
