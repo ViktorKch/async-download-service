@@ -44,7 +44,7 @@ async def archivate(path, delay, request):
         while True:
             if delay:
                 await asyncio.sleep(delay)
-            archive_chunk = await proc.stdout.readline()
+            archive_chunk = await proc.stdout.read()
             if not archive_chunk:
                 message = f"[{cmd!r} exited with {proc.returncode}]"
                 logging.debug(message)
